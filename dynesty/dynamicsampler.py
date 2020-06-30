@@ -852,7 +852,7 @@ class DynamicSampler(object):
             for it, results in enumerate(self.sampler.sample(maxiter=maxiter,
                                          save_samples=False,
                                          maxcall=maxcall, dlogz=dlogz,
-                                         n_effective=n_effective, restart=restart)):
+                                         n_effective=n_effective)):
                 # Grab results.
                 (worst, ustar, vstar, loglstar, logvol, logwt,
                  logz, logzvar, h, nc, worst_it, boundidx, bounditer,
