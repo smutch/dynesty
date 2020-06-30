@@ -158,12 +158,18 @@ class Sampler(object):
 
         state = self.__dict__.copy()
 
-        del state['rstate']  # remove random module
+        try:  # may have already been removed by the dynamicsampler
+            del state['rstate']  # remove random module
+        except KeyError:
+            pass
 
         # deal with pool
-        if state['pool'] is not None:
-            del state['pool']  # remove pool
-            del state['M']  # remove `pool.map` function hook
+        try:  # may have already been removed by the dynamicsampler
+            if state['pool'] is not None:
+                del state['pool']  # remove pool
+                del state['M']  # remove `pool.map` function hook
+        except KeyError:
+            pass
 
         return state
 
@@ -639,7 +645,8 @@ class Sampler(object):
             maxiter = sys.maxsize
         self.save_samples = save_samples
         self.save_bounds = save_bounds
-        ncall = 0
+
+        ncall = self.ncall
 
         # Check whether we're starting fresh or continuing a previous run.
         if self.it == 1:
